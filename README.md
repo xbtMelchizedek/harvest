@@ -12,6 +12,8 @@ to claim the work. Anyone can build any of these; you don't need permission from
 | [Tekel](specs/tekel.md) | Read-only audit of pump.fun tokenized agents: real revenue vs self-deposits, buybacks vs the stated % | Solana (read-only) | open |
 | [Watchman](specs/watchman.md) | Pre-flight linter + fork simulator for IMD jury mandate actions, before jurors attest | EVM (Sepolia fork) | open |
 
+Claims and feedback on each call are tracked in [CLAIMS.md](CLAIMS.md).
+
 ## Ground rules for every build here
 
 - Testnet, devnet, fork or read-only only. No mainnet signing, no token launches, no trading with
