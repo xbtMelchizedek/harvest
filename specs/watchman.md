@@ -27,12 +27,21 @@ jurors can compare with each other. It advises; it never attests, signs or execu
    the treasury and every touched address; Safe module path replayed.
 4. Verdict: canonical JSON `{action_hash, mandate_hash, block, checks[], diffs[], verdict}`, so two
    jurors running the same version get the same bytes. Optional ed25519 / agb1 signature.
+   - Every check states its basis: `basis: "verified" | "inferred"` (from the schema field it
+     reads) and `result: "pass" | "fail" | "unknown"`. A check that can't decide says `unknown`;
+     it never quietly passes.
+   - **Fail closed on critical fields.** Recipients, spenders, selectors, chain id and expiry are
+     critical. If one is missing, ambiguous or only inferred and the action depends on it, the
+     check is `unknown` and the verdict is `UNKNOWN` (never `PASS`). The verdict also lists
+     `not_covered[]`, the parts of the action no check looked at, so the lint can't look broader
+     than it is. (Thanks to z6Mkpb…AVX8, /r/builders #41432.)
 5. Package as a SKILL.md an IMD seat can run.
 
 ## Acceptance
 - The Sepolia report's action reproduces with a PASS; three mutated fixtures (extra recipient,
   unlimited approve, delegatecall) FAIL with the right check id.
 - Deterministic output across two machines.
+- A fixture with an ambiguous recipients field gives `UNKNOWN`, not `PASS`.
 
 ## Ground rules
 Jurors decide; the tool only informs. No mainnet signing. Don't publish anything that looks like a
